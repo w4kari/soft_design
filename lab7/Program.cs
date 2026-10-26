@@ -4,228 +4,119 @@ class Program
 {
     static void Main()
     {
-        // 1. true в условии заставляет тело if выполняться всегда
-        if (true)
-        {
-            Console.WriteLine("Hello");
-        }
+        // 1. тип bool принимает только true или false и при выводе преобразуется в текст
+        bool a1 = true;
+        Console.WriteLine(a1);
 
-        // 2. false в условии дает предупреждение компилятора (unreachable code), код внутри никогда не выполнится
-        if (false)
-        {
-            Console.WriteLine("Hello");
-        }
+        // 2. ошибка компиляции: bool — это тип-значение, он не может содержать null
+        // bool a2 = null;
 
-        // 3. при использовании переменных предупреждения компилятора не будет, выведется только Hello
-        bool execute = true;
-        if (execute)
-        {
-            Console.WriteLine("Hello");
-        }
+        // 3. оператор == сравнивает два выражения и возвращает false
+        bool a3 = 1 == 2;
+        Console.WriteLine(a3);
 
-        bool notExecute = !execute;
-        if (notExecute)
-        {
-            Console.WriteLine("Not executed");
-        }
+        // 4. оператор сравнивает значения, хранящиеся внутри переменных (3 и 4)
+        int x4 = 3;
+        int y4 = 4;
+        bool b4 = x4 == y4;
+        Console.WriteLine(b4);
 
-        // 4. f1 и f2 идентичны (если a вернет false, b не вызовется), а в f3 обе функции вызываются заранее до проверки
-        F1();
-        F2();
-        F3();
+        // 5. сначала вычисляются математические части ((x * 2) и (y + 4)), а затем они сравниваются
+        int x5 = 3;
+        int y5 = 4;
+        bool b5 = x5 * 2 == y5 + 4;
+        Console.WriteLine(b5);
 
-        // 5. ошибка компиляции: в условии if может быть только тип bool, число int использовать нельзя
-        // if (1) { Console.WriteLine("Hello"); }
+        // 6. переменная сначала получает false, а затем перезаписывается значением true
+        bool a6 = 1 > 2;
+        a6 = 3 == 3;
+        Console.WriteLine(a6);
 
-        // 6. условие ложно, поэтому весь блок в фигурных скобках пропускается и ничего не выводится
-        if (false)
-        {
-            Console.WriteLine("A");
-            Console.WriteLine("B");
-        }
+        // 7. передача значения bool переменной в качестве аргумента функции
+       bool a = true;
+       F(a);
+       static void F(bool x)
+       {
+        Console.WriteLine(x);
+       }
 
-        // 7. без фигурных скобок к if относится только первая строка (A), поэтому строка B выполнится независимо от условия
-        if (false)
-            Console.WriteLine("A");
-            Console.WriteLine("B");
+        // 8. выражение 5 > 3 вычисляется до вызова функции, и внутрь передается результат true
+        PrintBool(5 > 3);
 
-        // 8. блок else выполняется тогда, когда условие в if оказалось ложным (выведется B)
-        if (false)
-        {
-            Console.WriteLine("A");
-        }
-        else
-        {
-            Console.WriteLine("B");
-        }
+        // 9. функция возвращает логическое значение true, которое сохраняется в переменную
+        bool result9 = GetTrue();
+        Console.WriteLine(result9);
 
-        // 9. условие проверяется один раз в начале, поэтому изменение переменной внутри if не запустит блок else
-        bool a9 = true;
-        if (a9)
-        {
-            a9 = false;
-        }
-        else
-        {
-            Console.WriteLine("B");
-        }
+        // 10. функция вычисляет выражение a > b и возвращает результат сравнения (true)
+        bool result10 = IsGreater(5, 3);
+        Console.WriteLine(result10);
 
-        // 10. return внутри if сразу завершает всю функцию, код в else и после него не выполняется
-        ReturnInIf();
+        // 11. оператор == сравнивает два логических значения (true == false дает false)
+        bool a11 = true;
+        bool b11 = false;
+        bool c11 = a11 == b11;
+        Console.WriteLine(c11);
 
-        // 11. без скобок к if и else привязывается по одной инструкции: выполнится A, блок else (B) пропустится, затем выполнится C
-        if (true)
-            Console.WriteLine("A");
-        else
-            Console.WriteLine("B");
-        Console.WriteLine("C");
+        // 12. оператор ! инвертирует значение: делает из false значение true (и наоборот)
+        bool a12 = false;
+        bool b12 = !a12;
+        Console.WriteLine(b12);
 
-        // 12. допустимо комбинировать одиночную инструкцию без скобок в if и блок со скобками в else
-        if (true)
-            Console.WriteLine("A");
-        else
-        {
-            Console.WriteLine("B");
-        }
+        // 13. оператор && возвращает true только если оба операнда равны true, иначе false
+        bool a13 = true;
+        bool b13 = false;
+        bool c13 = a13 && b13;
+        Console.WriteLine(c13);
 
-        // 13. цепочка else if позволяет последовательно проверять условия без лишней вложенности
-        bool a13 = false, b13 = true, c13 = false;
-        if (a13)
-        {
-            Console.WriteLine("A");
-        }
-        else if (b13)
-        {
-            Console.WriteLine("B");
-        }
-        else if (c13)
-        {
-            Console.WriteLine("C");
-        }
+        // 14. первая функция возвращает true, поэтому вызывается и вторая (выведется A и B)
+        bool result14 = TrueA() && TrueB();
 
-        // 14. паттерн early return (guard clause) избавляет от сложной вложенности else с помощью выхода из функции через return
-        EarlyReturnDemo(false, true, false);
+        // 15. первая функция возвращает true, вторая вызывается и возвращает false (выведется A и B, итог false)
+        bool result15 = TrueA() && FalseB();
 
-        // 15. управление циклом: continue сразу переходит к следующей итерации, а break полностью прерывает цикл
-        int i = 0;
-        while (true)
-        {
-            if (i == 4)
-            {
-                Console.WriteLine("ERROR: Should not happen");
-                break;
-            }
-            if (i == 3)
-            {
-                Console.WriteLine("Exit");
-                break;
-            }
-            if (i == 0)
-            {
-                Console.WriteLine("Increase by 2 on first iter");
-                i += 2;
-                continue;
-            }
+        // 16. ленивое вычисление (lazy evaluation) для &&: первая функция вернула false, поэтому вторая даже не вызывается (выведется только A)
+        bool result16 = FalseA() && TrueB();
 
-            Console.WriteLine("Increase by 1 normally");
-            i++;
-        }
-
-        // 16. return внутри цикла немедленно завершает всю функцию и возвращает 0, игнорируя break и последующий код
-        int result16 = ReturnInWhile();
-        Console.WriteLine(result16);
+        // 17. ленивое вычисление для ||: первая функция вернула true, этого достаточно для истинности, вторая не вызывается (выведется только A)
+        bool result17 = TrueA() || TrueB();
     }
 
-    static bool A()
+    static void PrintBool(bool flag)
+    {
+        Console.WriteLine(flag);
+    }
+
+    static bool GetTrue()
+    {
+        return true;
+    }
+
+    static bool IsGreater(int a, int b)
+    {
+        return a > b;
+    }
+
+    static bool TrueA()
     {
         Console.WriteLine("A");
         return true;
     }
 
-    static bool B()
+    static bool FalseA()
+    {
+        Console.WriteLine("A");
+        return false;
+    }
+
+    static bool TrueB()
     {
         Console.WriteLine("B");
         return true;
     }
 
-    static void F1()
+    static bool FalseB()
     {
-        if (A())
-        {
-            if (B())
-            {
-                Console.WriteLine("Hello");
-            }
-        }
-    }
-
-    static void F2()
-    {
-        if (A() && B())
-        {
-            Console.WriteLine("Hello");
-        }
-    }
-
-    static void F3()
-    {
-        // семантическое отличие: функции вызываются всегда, даже если первая вернет false
-        bool a = A();
-        bool b = B();
-        bool ok = a && b;
-        if (ok)
-        {
-            Console.WriteLine("Hello");
-        }
-    }
-
-    static void ReturnInIf()
-    {
-        if (true)
-        {
-            return;
-        }
-        else
-        {
-            Console.WriteLine("Else");
-        }
-        Console.WriteLine("After Else");
-    }
-
-    static void EarlyReturnDemo(bool a, bool b, bool c)
-    {
-        if (a)
-        {
-            Console.WriteLine("A");
-            return;
-        }
-        Console.WriteLine("After A");
-
-        if (b)
-        {
-            Console.WriteLine("B");
-            return;
-        }
-        Console.WriteLine("After B");
-
-        if (c)
-        {
-            Console.WriteLine("C");
-            return;
-        }
-        Console.WriteLine("After C");
-    }
-
-    static int ReturnInWhile()
-    {
-        while (true)
-        {
-            if (true)
-            {
-                return 0;
-            }
-            break;
-        }
-        return 1;
+        Console.WriteLine("B");
+        return false;
     }
 }
